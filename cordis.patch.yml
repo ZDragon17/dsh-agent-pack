@@ -1,0 +1,4 @@
+- insert:
+    - id: tool-agent-pack
+      name: '@local/dsh-agent-pack'
+      config: {}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Agent Pack Orchestrator",
+    "description": "Swarm research and wolf-pack implementation orchestration across locally installed agent CLIs: registry scan, capability profiles, parallel dispatch, verify loop."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@local/dsh-agent-pack",
+  "description": "Swarm (parallel research) and wolf-pack (role-split implementation with verify loop) orchestration across locally installed agent CLIs, with registry scan, capability profiles, and dispatch tools.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/ZDragon17/dsh-agent-pack.git" },
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "package.json"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
