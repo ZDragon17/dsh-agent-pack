@@ -1,10 +1,12 @@
-# @local/dsh-agent-pack — 蜂群·狼群调度台
+# dsh-agent-pack — Multi-Agent Orchestration / 蜂群·狼群调度台（DeepSeek Harness plugin）
 
 **dsh-agent-pack** turns every agent CLI installed on your machine (codex / opencode / claude / gemini / qwen / aider / goose / amp / cursor-agent / omp / …) into a dispatchable workforce: registry scan with real probing, capability routing on measured evidence (not hand-written priors), parallel research swarms, role-split implementation packs with verify/fix loops, heterogeneous review, deterministic eval suites — and a task ledger so an interrupted run can be resumed verbatim in a fresh session.
 
 > English quickstart: `pack_registry_scan` → `pack_plan {objective}` → `pack_swarm` / `pack_wolf`. Everything below is documented in Chinese; tool parameters are self-describing in the schema.
 
 把本机已安装的所有 agent CLI（codex / opencode / claude / gemini / qwen / aider / copilot / goose / amp / crush / cursor-agent / kimi …）变成可自由调度的小队。
+
+**Keywords**: multi-agent orchestration, AI agent swarm, wolf pack, Claude Code subagents alternative, Codex CLI, Gemini CLI, opencode, DeepSeek Harness plugin, parallel agent dispatch, capability routing, verify-fix loop, heterogeneous review, LLM workflow automation.
 
 **设计立场**：蜂后/狼王是**调用方 agent 本身**——它负责规划、拆解、综合；本插件只当"肌肉"：并行派发、限时收割、验收循环。目标级"不实现不罢休"循环由 DSH 原生 goals 承担；媒体生成由 magpie MCP 承担；本插件专注**外部 CLI 进程级编排**——这正是市面（Ralph/vibe-kanban/CrewAI…）都没打通的空白层。
 
