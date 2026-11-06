@@ -163,7 +163,18 @@ BUILD .17–.20 实测能力反哺路由（2026-11-04；全部真跑验证）：
 - **`pack_resume`**：不带 `id` 列出最近任务（状态/outcome/失败原因）；带 `id` 从快照原样重派发，新任务经 `resumedFrom` 链到旧任务。续跑粒度是任务级（整个 pack 重跑），不依赖原会话存活。
 - 实现：swarm/wolf 的 execute 由 `ledgerRun()` 包装——begin 记账、completed/failed 终态记账、抛错记录 failed；实现函数挂 `packImpls` 供同进程续跑。账本写入失败只静默跳过，绝不拖垮派发。
 - 实测（build .23）：mock 冒烟 9 工具全注册、列表/清扫/空账本全过；**续跑端到端真跑通过**——resume 一个中断的 wolf 任务时真实重派发发生并正常完成记账（守卫测试的「意外成功」恰好证明链路是通的）。
+- **崩溃韧性测试**（`tests/ledger-crash.test.mjs`，`node --test` 运行，4 项全过）：验证被杀进程可能留下的文件状态——残留 .tmp 不影响读取、截断的 ledger.json 降级为空而非崩溃、tmp+rename 循环后文件恒为合法 JSON、超时 running 条目被清扫为 interrupted。
 - 未做（留给 .24+）：定时/事件触发的发起端（有了账本，接上 cron 即「自动接」）；wolf 内部中途断点（当前是任务级重跑）。
+
+## 与 agent-autoloop 的关系（正交，可组合）
+
+[agent-autoloop](https://github.com/KKKKhazix/agent-autoloop) 是常驻自动化中台：事件驱动接活、跨会话跟进、人不在时把决策卡片推到飞书/Slack。它和本插件回答的是两个不同的问题，且互相成就：
+
+- **autoloop 管「活从哪来、断了谁续」**：cron/Webhook 发起任务，进程级挂起零消耗，会话级续接。
+- **agent-pack 管「活怎么干得又快又好」**：单个任务内多 CLI 并行（蜂群/狼群）、实测能力路由、verify/fix 质量闭环、异构复审。
+- **组合用法**：autoloop 的规则把任务派给 DeepSeek Harness（`dsh --profile headless {prompt}`，它内置 DSH 适配），DSH 会话里再调用本插件跑狼群——发起端是 autoloop，质量闭环是 agent-pack。
+
+**明确不做**：本插件不做事件调度、不做后台常驻、不做会话级续接（那是 CLI 进程层的职责，超出插件边界；本插件的 `pack_resume` 是任务级原样重跑）。需要这些，请用 autoloop 这类中台，两者叠加而非重复造轮子。
 
 ## 环境注意（Windows）
 
